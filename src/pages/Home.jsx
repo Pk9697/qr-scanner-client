@@ -1,10 +1,19 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import QrReader from 'react-qr-reader'
 
 function Home() {
-  const [data, setData] = useState('No result')
+  const [data, setData] = useState(null)
   const [open, setOpen] = useState(false)
   const [error, setError] = useState(null)
+  const [isLoading, setIsLoading] = useState(false)
+
+  useEffect(() => {
+    if (open) {
+      setIsLoading(true)
+    } else {
+      setIsLoading(false)
+    }
+  }, [open])
 
   const handleScan = (result) => {
     if (result) {
@@ -17,10 +26,12 @@ function Home() {
     setError(err)
   }
 
+  const handleClick = () => {
+    setOpen((prev) => !prev)
+  }
+
   return (
     <div className="container">
-      {/* <button type="button">Switch</button> */}
-
       <div className="text-container">
         <h2>Scan QR Code</h2>
         <p className="text">
@@ -29,8 +40,8 @@ function Home() {
         </p>
       </div>
 
-      <div className="qr-container">
-        <div className="qr-box">
+      <div className="qr-box">
+        <div className="qr-box__container">
           {open && (
             <QrReader
               delay={1000}
@@ -40,12 +51,27 @@ function Home() {
             />
           )}
         </div>
-        <p>{open ? 'Loading...' : data}</p>
-        {error && <p>{error}</p>}
+        <div className="qr-box__msg">
+          {error && <p>{error}</p>}
+          {isLoading && <p>Loading...</p>}
+          {data && (
+            <div className="qr-box__link-container">
+              <a
+                className="qr-box__link"
+                href={data}
+                target="_blank"
+                rel="noreferrer"
+              >
+                {data}
+              </a>
+              <button type="button">Save</button>
+            </div>
+          )}
+        </div>
       </div>
 
       <div>
-        <button type="button" onClick={() => setOpen((prev) => !prev)}>
+        <button type="button" onClick={handleClick}>
           {!open ? 'Scan QR' : 'Stop Scanning'}
         </button>
       </div>
