@@ -5,6 +5,7 @@ import { QrContext } from '../context/qrContext'
 function History() {
   const {
     qrState: { qrs },
+    deleteQr,
   } = useContext(QrContext)
 
   return (
@@ -13,7 +14,7 @@ function History() {
         <h2>Scanning History</h2>
         <p className="text">Your Saved Qr&apos;s</p>
       </div>
-      <QrList qrs={qrs} />
+      <QrList qrs={qrs} deleteQr={deleteQr} />
     </div>
   )
 }

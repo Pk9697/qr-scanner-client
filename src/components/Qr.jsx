@@ -1,13 +1,12 @@
-function Qr({ qr: { content = '' } }) {
+function Qr({ qr: { content = '', _id: id }, deleteQr }) {
   return (
     <div className="qr">
-      <div>{content}</div>
-      <div>
-        <a href={`https://${content}`} target="_blank" rel="noreferrer">
-          Visit
-        </a>
-        <button type="button">Delete</button>
-      </div>
+      <a href={content} target="_blank" rel="noreferrer">
+        {content}
+      </a>
+      <button type="button" onClick={() => deleteQr(id)}>
+        Delete
+      </button>
     </div>
   )
 }

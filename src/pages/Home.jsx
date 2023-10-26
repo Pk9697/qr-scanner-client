@@ -1,11 +1,21 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import QrReader from 'react-qr-reader'
+import { QrContext } from '../context/qrContext'
+import { AuthContext } from '../context/authContext'
 
 function Home() {
   const [data, setData] = useState(null)
   const [open, setOpen] = useState(false)
   const [error, setError] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
+  const {
+    qrState: { inProgress },
+    createQr,
+  } = useContext(QrContext)
+
+  const {
+    authState: { isLoggedIn },
+  } = useContext(AuthContext)
 
   useEffect(() => {
     if (open) {
@@ -27,7 +37,16 @@ function Home() {
   }
 
   const handleClick = () => {
+    setData(null)
     setOpen((prev) => !prev)
+  }
+
+  const handleSave = () => {
+    if (isLoggedIn) {
+      createQr(encodeURIComponent(data))
+    } else {
+      alert('Please login to save')
+    }
   }
 
   return (
@@ -64,7 +83,9 @@ function Home() {
               >
                 {data}
               </a>
-              <button type="button">Save</button>
+              <button disabled={inProgress} type="button" onClick={handleSave}>
+                Save
+              </button>
             </div>
           )}
         </div>

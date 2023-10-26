@@ -10,9 +10,13 @@ function QrContextProvider({ children }) {
     authState: { token },
   } = useContext(AuthContext)
 
-  const { qrState } = useQr(token)
+  const { qrState, createQr, deleteQr } = useQr(token)
 
-  return <QrContext.Provider value={{ qrState }}>{children}</QrContext.Provider>
+  return (
+    <QrContext.Provider value={{ qrState, createQr, deleteQr }}>
+      {children}
+    </QrContext.Provider>
+  )
 }
 
 export { QrContextProvider, QrContext }

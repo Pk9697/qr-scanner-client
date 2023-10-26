@@ -2,6 +2,12 @@ import { useEffect, useReducer } from 'react'
 import { APIUrls } from '../helpers/utils'
 import qrReducer from '../reducers/qr'
 import {
+  createQrError,
+  createQrStart,
+  createQrSuccess,
+  deleteQrError,
+  deleteQrStart,
+  deleteQrSuccess,
   fetchAllQrsError,
   fetchAllQrsStart,
   fetchAllQrsSuccess,
@@ -41,7 +47,43 @@ function useQr(token) {
     }
   }
 
-  return { qrState }
+  const createQr = async (content) => {
+    dispatch(createQrStart())
+    const url = APIUrls.createQr(content)
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    const data = await res.json()
+    if (data.success) {
+      dispatch(createQrSuccess(data.data.qr))
+    } else {
+      dispatch(createQrError(data.message))
+    }
+  }
+
+  const deleteQr = async (qrId) => {
+    dispatch(deleteQrStart())
+    const url = APIUrls.deleteQr(qrId)
+    const res = await fetch(url, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    const data = await res.json()
+    if (data.success) {
+      dispatch(deleteQrSuccess(qrId))
+    } else {
+      dispatch(deleteQrError(data.message))
+    }
+  }
+
+  return { qrState, createQr, deleteQr }
 }
 
 export default useQr

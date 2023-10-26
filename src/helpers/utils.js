@@ -5,4 +5,6 @@ export const APIUrls = {
   authenticateUser: () => `${API_ROOT}/users/authenticate-user`,
   register: () => `${API_ROOT}/users/register`,
   fetchAllQrs: () => `${API_ROOT}/qrcodes`,
+  createQr: (content) => `${API_ROOT}/qrcodes/create?qrContent=${content}`,
+  deleteQr: (qrId) => `${API_ROOT}/qrcodes/delete/${qrId}`,
 }
