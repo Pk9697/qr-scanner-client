@@ -12,13 +12,13 @@ import {
 
 /* REDUCER */
 
-export default function authReducer(currState, action) {
+export default function authReducer(state, action) {
   switch (action.type) {
     case LOGIN_START:
     case AUTHENTICATE_USER_START:
     case REGISTER_START: {
       return {
-        ...currState,
+        ...state,
         inProgress: true,
         user: {},
         token: null,
@@ -30,7 +30,7 @@ export default function authReducer(currState, action) {
     case AUTHENTICATE_USER_SUCCESS:
     case REGISTER_SUCCESS: {
       return {
-        ...currState,
+        ...state,
         user: action.payload.user,
         token: action.payload.token,
         isLoggedIn: true,
@@ -41,7 +41,7 @@ export default function authReducer(currState, action) {
     case LOGIN_ERROR:
     case REGISTER_ERROR: {
       return {
-        ...currState,
+        ...state,
         error: action.payload,
         user: {},
         token: null,
@@ -52,7 +52,7 @@ export default function authReducer(currState, action) {
 
     case LOGOUT: {
       return {
-        ...currState,
+        ...state,
         inProgress: false,
         user: {},
         token: null,
@@ -61,6 +61,6 @@ export default function authReducer(currState, action) {
       }
     }
     default:
-      return currState
+      return state
   }
 }

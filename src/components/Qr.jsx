@@ -1,9 +1,11 @@
-function Qr() {
+function Qr({ qr: { content = '' } }) {
   return (
     <div className="qr">
-      <div>https://google.com</div>
+      <div>{content}</div>
       <div>
-        <button type="button">Visit</button>
+        <a href={`https://${content}`} target="_blank" rel="noreferrer">
+          Visit
+        </a>
         <button type="button">Delete</button>
       </div>
     </div>

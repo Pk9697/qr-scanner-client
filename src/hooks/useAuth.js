@@ -31,7 +31,7 @@ function useAuth() {
     if (token) {
       const user = jwtDecode(token)
       // eslint-disable-next-line no-use-before-define
-      dispatch(authenticateUser({ user, token }))
+      authenticateUser({ user, token })
     }
   }, [])
 
