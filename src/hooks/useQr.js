@@ -12,6 +12,7 @@ import {
   fetchAllQrsStart,
   fetchAllQrsSuccess,
 } from '../actions/qr'
+import notify from '../helpers/commonFunctions'
 
 const initialState = {
   qrs: [],
@@ -44,6 +45,7 @@ function useQr(token) {
       dispatch(fetchAllQrsSuccess(data.data.qrs))
     } else {
       dispatch(fetchAllQrsError(data.message))
+      notify({ type: 'error', msg: data.message })
     }
   }
 
@@ -60,8 +62,10 @@ function useQr(token) {
     const data = await res.json()
     if (data.success) {
       dispatch(createQrSuccess(data.data.qr))
+      notify({ type: 'success', msg: data.message })
     } else {
       dispatch(createQrError(data.message))
+      notify({ type: 'error', msg: data.message })
     }
   }
 
@@ -78,8 +82,10 @@ function useQr(token) {
     const data = await res.json()
     if (data.success) {
       dispatch(deleteQrSuccess(qrId))
+      notify({ type: 'success', msg: data.message })
     } else {
       dispatch(deleteQrError(data.message))
+      notify({ type: 'error', msg: data.message })
     }
   }
 

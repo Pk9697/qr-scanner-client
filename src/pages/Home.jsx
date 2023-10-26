@@ -5,7 +5,6 @@ function Home() {
   const {
     data,
     open,
-    error,
     isLoading,
     inProgress,
     handleScan,
@@ -36,7 +35,6 @@ function Home() {
           )}
         </div>
         <div className="qr-box__msg">
-          {error && <p>{error}</p>}
           {isLoading && <p>Loading...</p>}
           {data && (
             <div className="qr-box__link-container">

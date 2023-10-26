@@ -1,11 +1,11 @@
 import { useContext, useEffect, useState } from 'react'
 import { QrContext } from '../context/qrContext'
 import { AuthContext } from '../context/authContext'
+import notify from '../helpers/commonFunctions'
 
 function useScan() {
   const [data, setData] = useState(null)
   const [open, setOpen] = useState(false)
-  const [error, setError] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
   const {
     qrState: { inProgress },
@@ -28,11 +28,12 @@ function useScan() {
     if (result) {
       setData(result)
       setOpen(false)
+      notify({ type: 'success', msg: 'Scanned Successfully!' })
     }
   }
 
   const handleError = (err) => {
-    setError(err)
+    notify({ type: 'error', msg: err })
   }
 
   const handleClick = () => {
@@ -44,14 +45,13 @@ function useScan() {
     if (isLoggedIn) {
       createQr(encodeURIComponent(data))
     } else {
-      alert('Please login to save')
+      notify({ type: 'error', msg: 'Please Login to Save!' })
     }
   }
 
   return {
     data,
     open,
-    error,
     isLoading,
     inProgress,
     handleScan,

@@ -14,6 +14,7 @@ import {
   registerSuccess,
 } from '../actions/auth'
 import authReducer from '../reducers/auth'
+import notify from '../helpers/commonFunctions'
 
 const initialState = {
   user: {},
@@ -49,8 +50,10 @@ function useAuth() {
     if (data.success) {
       localStorage.setItem('token', data.data.token)
       dispatch(loginSuccess(data.data))
+      notify({ type: 'success', msg: 'Logged In Successfully!' })
     } else {
       dispatch(loginError(data.message))
+      notify({ type: 'error', msg: data.message })
     }
   }
 
@@ -70,11 +73,13 @@ function useAuth() {
       dispatch(authenticateUserSuccess({ user, token }))
     } else {
       dispatch(authenticateUserError(data.message))
+      notify({ type: 'error', msg: data.message })
     }
   }
 
   const logOutUser = () => {
     dispatch(logOut())
+    notify({ type: 'success', msg: 'Logged Out!' })
   }
 
   const registerUser = async (formFields) => {
@@ -91,8 +96,10 @@ function useAuth() {
     if (data.success) {
       localStorage.setItem('token', data.data.token)
       dispatch(registerSuccess(data.data))
+      notify({ type: 'success', msg: 'Registered Successfully!' })
     } else {
       dispatch(registerError(data.message))
+      notify({ type: 'error', msg: data.message })
     }
   }
 
